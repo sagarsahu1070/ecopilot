@@ -1,0 +1,146 @@
+{
+  "entities": {
+    "CampusMetadata": {
+      "title": "Campus Metadata",
+      "description": "Metadata for campus facility and configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "shortName": { "type": "string" },
+        "campus": { "type": "string" },
+        "location": { "type": "string" },
+        "established": { "type": "number" },
+        "totalStudentsEstimate": { "type": "number" },
+        "dataSource": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "campus", "dataSource"]
+    },
+    "Building": {
+      "title": "Campus Building",
+      "description": "SRM KTR Campus building entity",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "code": { "type": "string" },
+        "floors": { "type": "number" },
+        "totalAreaSqFt": { "type": "number" },
+        "primaryUse": { "type": "string" },
+        "dataSource": { "type": "string" }
+      },
+      "required": ["id", "name", "code", "dataSource"]
+    },
+    "FoodRecord": {
+      "title": "Food Turnout and Surplus Record",
+      "description": "Daily meal prep, turnout, and leftover metrics",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "diningHall": { "type": "string" },
+        "date": { "type": "string" },
+        "meal": { "type": "string" },
+        "preparedQuantityKg": { "type": "number" },
+        "studentsServed": { "type": "number" },
+        "leftoverQuantityKg": { "type": "number" },
+        "dataSource": { "type": "string" }
+      },
+      "required": ["id", "diningHall", "date", "meal", "dataSource"]
+    },
+    "EnergyRoom": {
+      "title": "Energy Room Record",
+      "description": "Building room power draw and occupancy audit",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "building": { "type": "string" },
+        "roomNumber": { "type": "string" },
+        "roomType": { "type": "string" },
+        "occupancy": { "type": "number" },
+        "currentPowerKw": { "type": "number" },
+        "acStatus": { "type": "string" },
+        "lightsStatus": { "type": "string" },
+        "isIdleWaste": { "type": "boolean" },
+        "dataSource": { "type": "string" }
+      },
+      "required": ["id", "building", "roomNumber", "dataSource"]
+    },
+    "WaterRecord": {
+      "title": "Water Consumption Record",
+      "description": "Campus facility submeter water flow data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "building": { "type": "string" },
+        "date": { "type": "string" },
+        "waterConsumptionLiters": { "type": "number" },
+        "baselineExpectedLiters": { "type": "number" },
+        "isAnomaly": { "type": "boolean" },
+        "potentialCause": { "type": "string" },
+        "dataSource": { "type": "string" }
+      },
+      "required": ["id", "building", "date", "waterConsumptionLiters", "dataSource"]
+    },
+    "WasteRecord": {
+      "title": "Waste Diversion Record",
+      "description": "Stream audit and contamination measurements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "building": { "type": "string" },
+        "wasteStream": { "type": "string" },
+        "weightKg": { "type": "number" },
+        "contaminationRatePercent": { "type": "number" },
+        "dataSource": { "type": "string" }
+      },
+      "required": ["id", "building", "wasteStream", "dataSource"]
+    },
+    "ActionPlan": {
+      "title": "Action Plan Item",
+      "description": "Prioritized sustainability action proposal",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "priority": { "type": "string" },
+        "title": { "type": "string" },
+        "assignedAgent": { "type": "string" },
+        "location": { "type": "string" },
+        "actionRequired": { "type": "string" },
+        "estimatedImpact": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "priority", "title", "assignedAgent", "status"]
+    }
+  },
+  "firestore": {
+    "/campus_metadata/{id}": {
+      "schema": "CampusMetadata",
+      "description": "Campus metadata documents"
+    },
+    "/buildings/{id}": {
+      "schema": "Building",
+      "description": "Campus buildings"
+    },
+    "/food_records/{id}": {
+      "schema": "FoodRecord",
+      "description": "Dining hall food waste records"
+    },
+    "/energy_rooms/{id}": {
+      "schema": "EnergyRoom",
+      "description": "Room energy audit records"
+    },
+    "/water_records/{id}": {
+      "schema": "WaterRecord",
+      "description": "Water meter flow records"
+    },
+    "/waste_records/{id}": {
+      "schema": "WasteRecord",
+      "description": "Waste stream audit records"
+    },
+    "/action_plans/{id}": {
+      "schema": "ActionPlan",
+      "description": "Coordinator prioritized action items"
+    }
+  }
+}

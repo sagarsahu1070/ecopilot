@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Campus infrastructure, records, and telemetry collections:
+    // Anyone can read campus data, but writes require authenticated staff or valid document payload
+    match /campus/{campusId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.dataSource in ['DEMO', 'MANUAL_ENTRY', 'AUTHORIZED_API', 'IOT_SENSORS']);
+    }
+
+    match /buildings/{buildingId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.dataSource in ['DEMO', 'MANUAL_ENTRY', 'AUTHORIZED_API', 'IOT_SENSORS']);
+    }
+
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.dataSource in ['DEMO', 'MANUAL_ENTRY', 'AUTHORIZED_API', 'IOT_SENSORS']);
+    }
+
+    match /food_records/{foodId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.preparedQuantityKg >= 0 && request.resource.data.leftoverQuantityKg >= 0);
+    }
+
+    match /energy_records/{energyId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.powerConsumptionKw >= 0);
+    }
+
+    match /water_records/{waterId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.waterConsumptionLiters >= 0);
+    }
+
+    match /waste_records/{wasteId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.collectedKg >= 0);
+    }
+
+    match /occupancy/{occId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.headcount >= 0);
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.name is string);
+    }
+
+    match /alerts/{alertId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.domain in ['food', 'energy', 'water', 'waste']);
+    }
+
+    match /agent_runs/{runId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.agentKey in ['food', 'energy', 'water', 'waste', 'coordinator', 'impact', 'orchestrator']);
+    }
+
+    match /action_plans/{planId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.status in ['pending', 'in_investigation', 'approved', 'resolved', 'dismissed']);
+    }
+
+    match /impact_records/{impactId} {
+      allow read: if true;
+      allow write: if request.auth != null || (request.resource.data.label == 'ESTIMATED');
+    }
+
+    // Default match for other collections: reject arbitrary write without authentication
+    match /{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

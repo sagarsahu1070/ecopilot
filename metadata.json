@@ -1,0 +1,6 @@
+{
+  "name": "EcoPilot - AI Autonomous Sustainability Manager",
+  "description": "AI-powered autonomous sustainability command center for universities. Coordinates specialized AI agents across food, energy, water, and waste to detect anomalies and generate actionable reduction plans.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
